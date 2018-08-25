@@ -10,7 +10,7 @@ https://github.com/rails/rails/blob/master/activestorage/app/controllers/active_
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'activestorage-database-service'
+gem 'activestorage-database-service', github: 'TitovDigital/activestorage-database-service'
 ```
 
 And then execute:
