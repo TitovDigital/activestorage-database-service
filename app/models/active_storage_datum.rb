@@ -1,0 +1,2 @@
+class ActiveStorageDatum < ApplicationRecord
+end
