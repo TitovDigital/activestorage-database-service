@@ -1,7 +1,7 @@
 $:.push File.expand_path("lib", __dir__)
 
 # Maintain your gem's version:
-require "active_storage/database/service/version"
+require "activestorage/database/service/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
