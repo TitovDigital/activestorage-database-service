@@ -1,8 +1,13 @@
-# Activestorage::Database::Service
-ActiveStorage database service to store binary files in a database.
+# Rails Database File Upload with ActiveStorage
+A Rails Active Storage service implementing binary file upload to database.
 
-The implementation is based on a standard Rails Active Storage service:
+This gem has been created to address lack of built-in (or widely accepted in the community) support for uploading and saving binary files in ActiveRecord model.
+
+It is designed to be used in particular use cases where there is a need to store binary files uploads in database (such as PostgreSQL) without third-party cloud storage.
+
+Implementation is based on Ruby on Rails 5.2+ standard Active Storage API:
 https://guides.rubyonrails.org/active_storage_overview.html
+
 The gem adds a migration with a new model: an extra table that stores blob contents in a binary field.
 The service creates and destroys records in this table as requested by Active Storage.
 
