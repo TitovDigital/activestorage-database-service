@@ -12,7 +12,7 @@ module ActiveStorage
     def initialize(**args)
     end
 
-    def upload(key, io, checksum: nil)
+    def upload(key, io, checksum: nil, **)
       instrument :upload, key: key, checksum: checksum do
         ::ActiveStorageDatum.create!(key: key, io: io.read)
       end
