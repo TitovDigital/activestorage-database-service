@@ -19,9 +19,6 @@ Large files or large traffic are the risky cases. Either will put an unnecessary
 
 This gem has been tested with PostgreSQL.
 
-TODO: Implement download controller with secure tokens similar to
-https://github.com/rails/rails/blob/master/activestorage/app/controllers/active_storage/disk_controller.rb
-
 ## Installation
 Add this line to your application's Gemfile:
 
