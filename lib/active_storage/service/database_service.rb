@@ -57,8 +57,8 @@ module ActiveStorage
                 disposition: content_disposition,
                 content_type: content_type
             },
-            { expires_in: expires_in,
-              purpose: :blob_key }
+            expires_in: expires_in,
+            purpose: :blob_key
         )
 
         generated_url = url_helpers.rails_database_service_url(verified_key_with_expiration,
@@ -82,8 +82,8 @@ module ActiveStorage
                 content_length: content_length,
                 checksum: checksum
             },
-            { expires_in: expires_in,
-              purpose: :blob_token }
+            expires_in: expires_in,
+            purpose: :blob_token
         )
 
         generated_url = url_helpers.update_rails_database_service_url(verified_token_with_expiration, host: current_host)
