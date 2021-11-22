@@ -48,12 +48,13 @@ module ActiveStorage
       end
     end
 
-    def url(key, expires_in:, filename:, disposition:, content_type:)
+    def url(key, expires_in:, filename:, disposition:, content_type:, **options)
       instrument :url, key: key do |payload|
         content_disposition = content_disposition_with(type: disposition, filename: filename)
         verified_key_with_expiration = ActiveStorage.verifier.generate(
             {
                 key: key,
+                service_name: name,
                 disposition: content_disposition,
                 content_type: content_type
             },
@@ -78,6 +79,7 @@ module ActiveStorage
         verified_token_with_expiration = ActiveStorage.verifier.generate(
             {
                 key: key,
+                service_name: name,
                 content_type: content_type,
                 content_length: content_length,
                 checksum: checksum
