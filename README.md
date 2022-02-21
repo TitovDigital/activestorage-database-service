@@ -42,6 +42,13 @@ Enable new storage service in `development.rb` and `production.rb` environments:
 config.active_storage.service = :db
 ```
 
+Or configure for a specific model:
+```ruby
+class User < ApplicationRecord
+  has_one_attached :avatar, service: :db
+end
+```
+
 Copy and run database migration:
 ```bash
 $ rake activestorage_database_service_engine:install:migrations
