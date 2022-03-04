@@ -12,8 +12,14 @@ class ActiveStorage::DatabaseController < ActiveStorage::BaseController
       # read into memory (via database_service.download).  Anticipating future feature of streaming.
       blob = ActiveStorage::Blob.find_by!(key: key[:key])
 
-      serve_file key[:key], last_modified: key[:created_at], content_length: blob.byte_size,
-                 content_type: key[:content_type], disposition: key[:disposition]
+      serve_file(
+        key[:key],
+        service: database_service(key[:service_name]),
+        last_modified: key[:created_at],
+        content_length: blob.byte_size,
+        content_type: key[:content_type],
+        disposition: key[:disposition]
+      )
     else
       head :not_found
     end
@@ -22,7 +28,7 @@ class ActiveStorage::DatabaseController < ActiveStorage::BaseController
   def update
     if token = decode_verified_token
       if acceptable_content?(token)
-        database_service.upload token[:key], request.body, checksum: token[:checksum]
+        database_service(token[:service_name]).upload(token[:key], request.body, checksum: token[:checksum])
         head :no_content
       else
         head :unprocessable_entity
@@ -33,21 +39,22 @@ class ActiveStorage::DatabaseController < ActiveStorage::BaseController
   end
 
   private
-  def database_service
-    ActiveStorage::Blob.service
+
+  def database_service(name)
+    ActiveStorage::Blob.services.fetch(name)
   end
 
   def decode_verified_key
     ActiveStorage.verifier.verified(params[:encoded_key], purpose: :blob_key)
   end
 
-  def serve_file(key, last_modified:, content_length:, content_type:, disposition:)
+  def serve_file(key, service:, last_modified:, content_length:, content_type:, disposition:)
     response.headers["Content-Type"] = content_type || DEFAULT_SEND_FILE_TYPE
     response.headers["Content-Disposition"] = disposition || DEFAULT_SEND_FILE_DISPOSITION
     response.headers["Content-Length"] = content_length if !content_length.nil?
     response.headers["Last-Modified"] = last_modified if !last_modified.nil?
 
-    send_data database_service.download(key)
+    send_data service.download(key)
   end
 
 
