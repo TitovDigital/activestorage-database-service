@@ -107,7 +107,11 @@ module ActiveStorage
     end
 
     def current_host
-      ActiveStorage::Current.host
+      if ActiveStorage::Current.respond_to?(:url_options)
+        ActiveStorage::Current.url_options[:host]
+      else
+        ActiveStorage::Current.host
+      end
     end
   end
 end
