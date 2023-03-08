@@ -18,7 +18,7 @@ module ActiveStorage
         record = ::ActiveStorageDatum.find_by_key(key)
         if record
           if block_given?
-            yield record.id
+            yield record.io
           end
           return record.io
         else
