@@ -10,13 +10,14 @@ class ActiveStorage::DatabaseController < ActiveStorage::BaseController
       # filename = key[:disposition].match(/filename=(\"?)(.+)\1/)[2]
       # Filename and content length can be determined w/o retrieving blob record given that the entire file will be
       # read into memory (via database_service.download).  Anticipating future feature of streaming.
-      blob = ActiveStorage::Blob.find_by!(key: key[:key])
+      # Note that a blob record may not be present for variants.
+      blob = ActiveStorage::Blob.find_by(key: key[:key])
 
       serve_file(
         key[:key],
         service: database_service(key[:service_name]),
         last_modified: key[:created_at],
-        content_length: blob.byte_size,
+        content_length: blob&.byte_size,
         content_type: key[:content_type],
         disposition: key[:disposition]
       )
