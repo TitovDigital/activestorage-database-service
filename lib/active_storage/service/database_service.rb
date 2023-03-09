@@ -17,6 +17,9 @@ module ActiveStorage
       instrument :download, key: key do
         record = ::ActiveStorageDatum.find_by_key(key)
         if record
+          if block_given?
+            yield record.io
+          end
           return record.io
         else
           raise ActiveStorage::FileNotFoundError
