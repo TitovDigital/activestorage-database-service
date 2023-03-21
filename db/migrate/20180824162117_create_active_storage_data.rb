@@ -6,6 +6,6 @@ class CreateActiveStorageData < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-    add_index :active_storage_data, :key
+    add_index :active_storage_data, :key, unique: true
   end
 end
